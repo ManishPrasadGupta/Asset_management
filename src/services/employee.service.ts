@@ -9,7 +9,7 @@ type CreateEmployeeInput = {
   phone?: string;
   designation?: string;
   departmentId: string;
-  joiningDate?: string; // YYYY-MM-DD
+  joiningDate?: string; 
   status?: "ACTIVE" | "INACTIVE" | "EXITED";
 };
 
