@@ -8,8 +8,8 @@ type CreateAssetInput = {
   type?: string;
   brand?: string;
   serialNumber?: string;
-  purchaseDate?: string; // YYYY-MM-DD
-  warrantyExpiry?: string; // YYYY-MM-DD
+  purchaseDate?: string; 
+  warrantyExpiry?: string; 
   status?: "IN_STOCK" | "ASSIGNED" | "RETIRED";
 };
 
