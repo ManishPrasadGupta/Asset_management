@@ -8,46 +8,32 @@ A TypeScript + Express + PostgreSQL backend for managing assets, employees, depa
 
 This project is a backend API for an Asset Management system with exactly **4 core models**:
 
-- **Asset**
-- **Employee**
-- **Department**
-- **Asset Assignment**
-
-It uses **Drizzle ORM** for schema/migrations and follows a clean layered structure:
-
-- Routes
-- Controllers
-- Services
-- Models
+1. **Asset**
+2. **Employee**
+3. **Department**
+4. **Asset Assignment**
 
 ---
 
-## 🧱 Core Data Models (4)
+## 🧱 Core Models
 
-### 1) Asset (`asset.model.ts`)
-Represents a physical/company asset (e.g., laptop, monitor, phone, etc.).
-
-### 2) Employee (`employee.model.ts`)
-Represents an employee who can be assigned assets.
-
-### 3) Department (`department.model.ts`)
-Represents organizational departments and groups employees logically.
-
-### 4) Asset Assignment (`asset-assignment.model.ts`)
-Tracks asset allocation from assets to employees (assignment history/records).
+- `asset.model.ts`
+- `employee.model.ts`
+- `department.model.ts`
+- `asset-assignment.model.ts`
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Node.js**
-- **Express 5**
-- **TypeScript**
-- **PostgreSQL**
-- **Drizzle ORM**
-- **Drizzle Kit**
-- **dotenv**
-- **cors**
+- Node.js
+- Express 5
+- TypeScript
+- PostgreSQL
+- Drizzle ORM
+- Drizzle Kit
+- dotenv
+- cors
 
 ---
 
@@ -56,30 +42,14 @@ Tracks asset allocation from assets to employees (assignment history/records).
 ```text
 Asset_management/
 ├── drizzle/
-│   ├── 0000_yellow_wilson_fisk.sql
-│   └── meta/
 ├── dist/
 ├── src/
 │   ├── app.ts
 │   ├── index.ts
 │   ├── controllers/
-│   │   ├── asset.controller.ts
-│   │   ├── assignment.controller.ts
-│   │   ├── department.controller.ts
-│   │   └── employee.controller.ts
 │   ├── routes/
-│   │   ├── asset.route.ts
-│   │   ├── assignment.route.ts
-│   │   ├── department.route.ts
-│   │   └── employee.route.ts
 │   ├── services/
 │   ├── models/
-│   │   ├── asset.model.ts
-│   │   ├── asset-assignment.model.ts
-│   │   ├── department.model.ts
-│   │   ├── employee.model.ts
-│   │   ├── enums.ts
-│   │   └── index.ts
 │   └── db/
 ├── drizzle.config.ts
 ├── package.json
@@ -93,34 +63,30 @@ Asset_management/
 
 - Node.js (LTS recommended)
 - npm
-- PostgreSQL database
+- PostgreSQL
 
 ---
 
-## 🚀 Setup & Run
+## 🚀 Setup
 
-### 1. Clone repo
+### 1) Clone
 ```bash
 git clone https://github.com/ManishPrasadGupta/Asset_management.git
 cd Asset_management
 ```
 
-### 2. Install dependencies
+### 2) Install dependencies
 ```bash
 npm install
 ```
 
-### 3. Configure environment variables
-Create `.env` in project root:
-
+### 3) Add `.env`
 ```env
 PORT=5000
 DATABASE_URL=postgres://username:password@localhost:5432/asset_management
 ```
 
-> Replace with your actual DB credentials.
-
-### 4. Run migrations / schema sync
+### 4) Run migrations / schema
 ```bash
 npm run drizzle:generate
 npm run drizzle:migrate
@@ -128,77 +94,129 @@ npm run drizzle:migrate
 npm run drizzle:push
 ```
 
-### 5. Start development server
+### 5) Start app
 ```bash
 npm run dev
-```
-
-### 6. Build & run production
-```bash
-npm run build
-npm start
 ```
 
 ---
 
 ## 📜 Scripts
 
-From `package.json`:
-
-- `npm run dev` → start in dev mode (`ts-node-dev`)
-- `npm run build` → compile TypeScript
-- `npm start` → run compiled app from `dist`
-- `npm run drizzle:generate` → generate migrations
-- `npm run drizzle:migrate` → apply migrations
-- `npm run drizzle:push` → push schema directly
+- `npm run dev`
+- `npm run build`
+- `npm start`
+- `npm run drizzle:generate`
+- `npm run drizzle:migrate`
+- `npm run drizzle:push`
 
 ---
 
-## 🧭 API Modules
+## 🌐 Base URL
 
-Routes/controllers are organized by module:
-
-- `asset.route.ts` ↔ `asset.controller.ts`
-- `employee.route.ts` ↔ `employee.controller.ts`
-- `department.route.ts` ↔ `department.controller.ts`
-- `assignment.route.ts` ↔ `assignment.controller.ts`
-
-This keeps request handling separated by domain and easier to maintain.
-
----
-
-## 🔐 Environment Variables
-
-| Variable       | Required | Description                         |
-|----------------|----------|-------------------------------------|
-| `PORT`         | No       | API server port                     |
-| `DATABASE_URL` | Yes      | PostgreSQL connection string        |
-
----
-
-## ✅ Suggested API Base URL
-
-Local:
 ```text
 http://localhost:5000
 ```
 
 ---
 
-## 📈 Possible Improvements
+## ✅ Quick Checks
 
-- Add request validation (Zod/Joi)
-- Add global error handling middleware
+- `GET http://localhost:5000/`
+- `GET http://localhost:5000/health`
 
+---
+
+## 🧪 Test URLs
+
+## 1) Asset Assignment APIs
+
+### Assign Asset
+- **POST** `http://localhost:5000/api/assignments/assign`
+
+Request body:
+```json
+{
+  "assetId": "<asset-uuid>",
+  "employeeId": "<employee-uuid>",
+  "remarks": "Issued for project X"
+}
+```
+
+### Return Asset
+- **POST** `http://localhost:5000/api/assignments/return`
+
+Request body:
+```json
+{
+  "assetId": "<asset-uuid>",
+  "remarks": "Returned in good condition"
+}
+```
+
+### Assignment History
+- **GET** `http://localhost:5000/api/assignments/history`
+- **GET** `http://localhost:5000/api/assignments/history/asset/<asset-uuid>`
+- **GET** `http://localhost:5000/api/assignments/history/employee/<employee-uuid>`
+
+---
+
+## 2) Department APIs
+
+### CRUD Endpoints (Full URLs)
+- **POST** `http://localhost:5000/api/departments`
+- **GET** `http://localhost:5000/api/departments`
+- **GET** `http://localhost:5000/api/departments/:id`
+- **PATCH** `http://localhost:5000/api/departments/:id`
+- **DELETE** `http://localhost:5000/api/departments/:id`
+
+### List/Search Test URLs
+- **GET** `/api/departments?page=1&limit=5`
+- **GET** `/api/departments?search=it&page=1&limit=5`
+- **GET** `/api/departments?search=<uuid-part>&page=1&limit=5`
+
+---
+
+## 3) Employee APIs
+
+### CRUD Endpoints (Full URLs)
+- **POST** `http://localhost:5000/api/employees`
+- **GET** `http://localhost:5000/api/employees`
+- **GET** `http://localhost:5000/api/employees/:id`
+- **PATCH** `http://localhost:5000/api/employees/:id`
+- **DELETE** `http://localhost:5000/api/employees/:id`
+
+### List/Search Test URLs
+- **GET** `/api/employees?page=1&limit=10`
+- **GET** `/api/employees?search=manish&page=1&limit=10`
+- **GET** `/api/employees?search=EMP001&page=1&limit=10`
+
+---
+
+## 4) Asset APIs
+
+### CRUD Endpoints (Full URLs)
+- **POST** `http://localhost:5000/api/assets`
+- **GET** `http://localhost:5000/api/assets`
+- **GET** `http://localhost:5000/api/assets/:id`
+- **PATCH** `http://localhost:5000/api/assets/:id`
+- **DELETE** `http://localhost:5000/api/assets/:id`
+
+### List/Search/Filter Test URLs
+- **GET** `/api/assets?page=1&limit=10`
+- **GET** `/api/assets?search=dell&page=1&limit=10`
+- **GET** `/api/assets?status=IN_STOCK&page=1&limit=10`
+- **GET** `/api/assets?search=AST001&status=ASSIGNED&page=1&limit=10`
+
+---
+
+## 📈 Future Improvements
+
+- Add validation (Zod/Joi)
+- Add centralized error handling
 ---
 
 ## 👤 Author
 
 **Manish Prasad Gupta**  
 GitHub: [@ManishPrasadGupta](https://github.com/ManishPrasadGupta)
-
----
-
-## 📄 License
-
-ISC
